@@ -1,0 +1,39 @@
+extends layout_reporte
+block content  
+    div.se-pre-con
+    .well.well-lg.span11.offset0 
+        | <br/>    
+        h3 #{title}
+        hr
+        form#fechasForm(method="POST", action="/buscaCuentasLiberadas")
+            |Fecha inicio     
+            input(type="text", placeholder="Fecha inicio", name="fechaIniLiberacion")#fechaIniLiberacion
+            |         Fecha fin     
+            input(type="text", placeholder="Fecha fin", name="fechaFinLiberacion")#fechaFinLiberacion
+            input(type="submit" value="Buscar").btn.btn-success#buscarCuentasLiberadasSubmit                                
+        div#table_div(style="margin-top:50px;")            
+            table#tablaCuentasLiberadas.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr
+                        th Número de cuenta
+                        th Validador
+                        th Fecha liberación
+                        th Reasignar
+                tbody  
+        div#dialogConfirmaReasigna(title="Reasignar cuenta")
+            | ¿Deseas reasignar la cuenta?
+            | <br/>
+            p.numCuentaReasigna
+            input(type="hidden" name="idBaseReasigna")#idBaseReasigna
+            input(type="hidden" name="cuentaReasigna")#cuentaReasigna
+        div#dialogAlertReasigna
+            p.texto        
+    script.
+        $(".se-pre-con").fadeOut("slow");
+        var cuentasLiberadas = JSON.parse('!{cuentasLiberadas}');        
+
+        for(var i = 0; i < cuentasLiberadas.length; i++)
+        {                                        
+            $("#tablaCuentasLiberadas").append($('<tr><td>'+cuentasLiberadas[i].Cuenta+'</td><td>'+cuentasLiberadas[i].Validador+'</td><td>'+cuentasLiberadas[i].FechaLiberacion+'</td><td><button id="reasignar-'+cuentasLiberadas[i].Id+'" class="btn btn-primary reasignar" data-id='+cuentasLiberadas[i].Id+' data-numcue='+cuentasLiberadas[i].Cuenta+'><i class="icon-share-alt icon-white"></i></button>'))            
+        }
+        

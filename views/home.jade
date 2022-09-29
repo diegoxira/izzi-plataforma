@@ -1,0 +1,74 @@
+extends layout
+
+block content  
+  .well.well-lg.span11.offset0 
+    | <br/>
+    h1 Plataforma Izzi
+    h3 #{title}  
+    form.form-inline#temasChatContriSubmit
+      input(type="text" name="fechaIni" placeholder="Fecha Inicio")#fechaIni
+      input(type="text" name="fechaFin" placeholder="Fecha Fin")#fechaFin
+      button.btn.btn-success() 
+        i.icon-signal.icon-white
+        |  Enviar
+    div.btn-toolbar
+      button.btn.btn-success#temasChatContriMes
+        i.icon-calendar.icon-white
+        |  Temas mensuales      
+    hr
+    div#chart_div(style="width: 1024px; height: 800px")
+    div.btn-toolbar
+      button.btn.btn-success#excelChatContriTemas
+        i.icon-file.icon-white
+        |  Exportar a Excel
+      button.btn.btn-success#descargaChatContriTemas
+        i.icon-arrow-down.icon-white
+        |  Descarga chats
+    div#dialogTemaExcelChatContri(title="Exporta temas chat contribuyente a Excel")
+      | Selecciona una fecha de inicio y de fin para exportar los temas de chat de contribuyente a Excel.
+      hr
+      input(type="text" name="fechaIniExcel" placeholder="Fecha Inicio")#fechaIniExcel
+      input(type="text" name="fechaFinExcel" placeholder="Fecha Fin")#fechaFinExcel
+    div#dialogTemaChatContri(title="Descarga temas chat contribuyente")
+      | Selecciona una fecha de inicio, de fin y un tema para descacrgar.
+      hr
+      input(type="text" name="fechaIniDescarga" placeholder="Fecha Inicio")#fechaIniDescarga
+      input(type="text" name="fechaFinDescarga" placeholder="Fecha Fin")#fechaFinDescarga
+      select(id="temasList", name="temasList")
+  script.
+    var chartArray = JSON.parse('!{chartArray}');
+    var temasArray = JSON.parse('!{temasArray}');
+
+    var lista = $("#temasList");
+
+    $(".se-pre-con").fadeOut("slow");				
+
+    for(ix=0;ix<temasArray.length;ix++)
+    { 
+      lista.append($("<option />").val(temasArray[ix]).text(temasArray[ix]));					
+    }
+      
+    google.charts.load('current', {'packages':['bar']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() 
+    {
+      var data = new google.visualization.arrayToDataTable(chartArray);
+
+      var options = {
+        chart: {
+          title: 'Temas chat contribuyente',
+          subtitle: 'Temas preguntados',
+        },
+        vAxis: {
+          format: 'percent'
+        },
+        legend: {
+          position: 'bottom'
+        }
+      };
+
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.charts.Bar(document.getElementById('chart_div'));
+      chart.draw(data, google.charts.Bar.convertOptions(options));
+    }

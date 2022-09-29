@@ -1,0 +1,14 @@
+LDAP_URL=ldap://izzitelecom.net
+LDAP_BASEDN=dc=izzitelecom,dc=net
+LDAP_USERNAME=p-ogonzalezg@izzi.mx
+LDAP_PASS=Hr92BtE31S#b
+
+SQLS_HOST=TTRPAAPP01
+SQLS_USER=egdiaz
+SQLS_PASS=123456789
+SQLS_DB=validacion
+SQLS_PORT = 64403
+
+
+TZ=America/New_York
+TABLA_VAL=validadores

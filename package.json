@@ -1,0 +1,42 @@
+{
+  "name": "plataforma-izzi",
+  "version": "1.0.0",
+  "description": "Plataforma para validaciones y asignaciones Izzi",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Xira Intelligence",
+  "license": "ISC",
+  "dependencies": {
+    "activedirectory": "^0.7.2",
+    "archiver": "^3.0.0",
+    "async": "^3.0.1",
+    "circular-list": "0.0.2",
+    "cookie-parser": "^1.4.4",
+    "crypto": "^1.0.1",
+    "date-and-time": "^0.14.1",
+    "dotenv": "^8.0.0",
+    "errorhandler": "^1.5.0",
+    "excel4node": "^1.7.2",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "fs": "0.0.1-security",
+    "helmet": "^3.22.0",
+    "https": "^1.0.0",
+    "jade": "^1.11.0",
+    "ldapjs": "^1.0.2",
+    "method-override": "^3.0.0",
+    "moment": "^2.24.0",
+    "morgan": "^1.9.1",
+    "mssql": "^4.3.8",
+    "multer": "^1.4.1",
+    "mysql": "^2.16.0",
+    "path": "^0.12.7",
+    "read-excel-file": "^4.0.1",
+    "request": "^2.88.2",
+    "serve-favicon": "^2.5.0",
+    "set-tz": "^0.2.0",
+    "sqlite3": "^4.1.1"
+  }
+}

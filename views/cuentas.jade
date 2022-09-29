@@ -1,0 +1,93 @@
+extends layout_validador
+block content
+    div.se-pre-con
+    .well.well-lg.span11.offset0
+        | <br/>
+        h3 #{title}
+        hr
+        div#table_div(style="margin-top:50px;")
+            table#tablaCuentas.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr
+                        th Número de cuenta
+                        th Cobertura	 
+                        th Skill
+                        th Documentos
+                        th Liberación
+                tbody
+        div#dialogConfirma(title="Liberar cuenta")
+            | ¿Deseas liberar la cuenta?
+            | <br/>
+            p.numCuenta
+            input(type="hidden" name="idBase")#idBase
+        div#dialogAlert
+            p.texto
+        div#dialogImagenSipre
+            img#sipreImagen(src="")
+            br
+            br
+            p.sipreIdCercano
+        div#dialogImagenDocumento
+            img#documentosImagen(width="0", height="0", src="")
+    script.
+        $(".se-pre-con").fadeOut("slow");
+        var cuentas = JSON.parse('!{cuentas}');
+
+        for(var i = 0; i < cuentas.length; i++)
+        {
+            var correo = ""
+            var correoValido = ""
+            var telefono = ""
+            var cobertura = ""
+            var sipreIdCercano = ""
+            var skill = ""
+
+
+            if(cuentas[i].Correo == false)
+                correo = "<img src='/iconos/ok.png'>"
+            else
+                correo = "<img src='/iconos/nok.png'>"
+
+            if(cuentas[i].Telefono == false)
+                telefono = "<img src='/iconos/ok.png'>"
+            else
+                telefono = "<img src='/iconos/nok.png'>"
+
+            if(cuentas[i].SipreCercano != "")
+                sipreIdCercano = "SipreID cercano: " + cuentas[i].SipreCercano
+
+            if(cuentas[i].Cobertura == "SI")
+                cobertura = "<img class='visorImagen' data-cuenta="+cuentas[i].Cuenta+" data-sipreCercano = '"+sipreIdCercano+"' src='/iconos/ok.png'>"
+            if(cuentas[i].Cobertura == "SI_AR")
+                cobertura = "<img class='visorImagen' data-cuenta="+cuentas[i].Cuenta+" data-sipreCercano = '"+sipreIdCercano+"' src='/iconos/danger.png'>"
+            else if(cuentas[i].Cobertura == "NO" || cuentas[i].Cobertura == "")
+                cobertura = "<img class='visorImagen' data-cuenta="+cuentas[i].Cuenta+" data-sipreCercano = '"+sipreIdCercano+"' src='/iconos/nok.png'>"
+            else if(cuentas[i].Cobertura == "NO_SE")
+            {
+                if(cuentas[i].SipreCercano == '')
+                    cobertura = "<img class='visorImagen' data-cuenta="+cuentas[i].Cuenta+" data-sipreCercano = '"+sipreIdCercano+"' src='/iconos/noInfo.png'>"
+                else if(cuentas[i].SipreCercano == 'NO_ENCONTRADO')
+                    cobertura = "<img class='visorImagen' data-cuenta="+cuentas[i].Cuenta+" data-sipreCercano = '"+sipreIdCercano+"' src='/iconos/nok.png'>"
+                else
+                    cobertura = "<img class='visorImagen' data-cuenta="+cuentas[i].Cuenta+" data-sipreCercano = '"+sipreIdCercano+"' src='/iconos/warn.png'>"
+            }
+            else if(cuentas[i].Cobertura == "SI_FO")
+                cobertura = "<img class='visorImagen' data-cuenta="+cuentas[i].Cuenta+" data-sipreCercano = '"+cuentas[i].SipreCercano+"' src='/iconos/optical.png'>"
+            else if(cuentas[i].Cobertura == "NO_ENCONTRADO")
+                cobertura = "<img class='visorImagen' data-cuenta="+cuentas[i].Cuenta+" data-sipreCercano = '"+sipreIdCercano+"' src='/iconos/nok.png'>"
+
+            if(cuentas[i].CorreoVal == "SI")
+                correoValido = "<img src='/iconos/ok.png'>"
+            else
+                correoValido = "<img src='/iconos/nok.png'>"
+
+            if(cuentas[i].Documentos == "Si")
+                documentos = "<img class='visorDocumentos' data-cuenta="+cuentas[i].Cuenta+" src='/iconos/docs.png'>"
+            else
+                documentos = "<img src='/iconos/nok.png'>"            
+
+
+            $("#tablaCuentas").append($('<tr><td>'+cuentas[i].Cuenta+'</td><td>'+cobertura+'</td><td>'+cuentas[i].Skill+'</td><td>'+documentos+'</td><td><button id="editar-'+cuentas[i].Id+'" class="btn btn-primary editar" data-id='+cuentas[i].Id+' data-numcue='+cuentas[i].Cuenta+'><i class="icon-ok icon-white"></i> Liberar</button>'))
+            //- $("#tablaCuentas").append($('<tr><td>'+cuentas[i].Cuenta+'</td><td>'+cobertura+'</td><td>'+correoValido+'</td><td>'+cuentas[i].Skill+'</td><td>'+documentos+'</td><td><button id="editar-'+cuentas[i].Id+'" class="btn btn-primary editar" data-id='+cuentas[i].Id+' data-numcue='+cuentas[i].Cuenta+'><i class="icon-ok icon-white"></i> Liberar</button>'))
+
+        }

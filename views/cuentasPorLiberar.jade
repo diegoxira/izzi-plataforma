@@ -1,0 +1,22 @@
+extends layout_validador
+block content  
+    div.se-pre-con
+    .well.well-lg.span11.offset0 
+        | <br/>    
+        h3 #{title}
+        hr
+        div#table_div(style="margin-top:50px;")            
+            table#tablaCuentasPorLiberar.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr
+                        th Número de cuenta                        
+                        th Fecha liberación                     
+                tbody       
+    script.
+        $(".se-pre-con").fadeOut("slow");
+        var cuentas = JSON.parse('!{cuentas}');        
+
+        for(var i = 0; i < cuentas.length; i++)
+        {           
+            $("#tablaCuentasPorLiberar").append($('<tr><td>'+cuentas[i].Cuenta+'</td><td>'+cuentas[i].FechaLiberacion+'</td></tr>'))
+        }

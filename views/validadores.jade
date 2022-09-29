@@ -1,0 +1,306 @@
+extends layout_reporte
+block content  
+    div.se-pre-con
+    .well.well-lg.span13.offset0 
+        | <br/>    
+        h3 #{title}
+        hr
+        button.btn.btn-success#agregaVal
+            i.icon-plus.icon-white
+            |  Agregar
+        button.btn.btn-success#cargaMasiva
+            i.icon-file.icon-white
+            |  Cargar archivo
+        button.btn.btn-primary#pausaMasiva
+            i.icon-pause.icon-white
+            |  Pausar validadores        
+        div#table_div(style="margin-top:50px;")            
+            table#tablaValidadores.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr
+                        th Id validador
+                        th Nombre 
+                        th Hora entrada
+                        th Hora salida
+                        th Hora comida
+                        th Cuota
+                        th Día descanso
+                        th Ord. asignadas
+                        th Ord. por trabajar
+                        th Skill
+                        th Tipo Orden
+                        th Activo
+                        th Pausa
+                        th Editar 
+                        th Eliminar                       
+                tbody
+        div#dialogValidadorNuevo(title="Nuevo validador")            
+            span Id validador
+            input(type="text" name="idValNuevo" placeholder="Ingresa el Id del validador")#idValNuevo
+            span Nombre 
+            br
+            input(type="text" name="nombreValNuevo" placeholder="Ingresa el nombre")#nombreValNuevo
+            br
+            span Hora Entrada 
+            br
+            select(id="horaEntradaValNuevo", name="horaEntradaValNuevo" class="selectHora")                
+            span :
+            select(id="minEntradaValNuevo", name="minEntradaValNuevo" class="selectHora")   
+            br
+            span Hora Salida 
+            br                           
+            select(id="horaSalidaValNuevo", name="horaSalidaValNuevo" class="selectHora")                
+            span :
+            select(id="minSalidaValNuevo", name="minSalidaValNuevo" class="selectHora")   
+            br
+            span Hora Comida 
+            br
+            select(id="horaComidaValNuevo", name="horaComidaValNuevo" class="selectHora")                
+            span :
+            select(id="minComidaValNuevo", name="minComidaValNuevo" class="selectHora")  
+            br
+            span Día de descanso 
+            br
+            select(id="descansoValNuevo", name="descansoValNuevo")                            
+            br
+            span Cuota 
+            br
+            input(type="text" name="cuotaValNuevo" placeholder="Ingresa la cuota")#cuotaValNuevo
+            br 
+            span Skill 
+            br
+            input(type="text" name="skillValNuevo" placeholder="Ingresa el skill")#skillValNuevo
+            br
+            span Tipo Orden 
+            br
+            select(id="tipoOrdenValNuevo", name="tipoOrdenValNuevo")
+                option(value='0', selected= true) Todas las cuentas
+                option(value='1') SipreID exacto
+                option(value='2') SipreID cercano
+                option(value='3') SipreID no encontrado
+            br
+            input#activoValNuevo(type='checkbox', name='activoValNuevo')
+            span   Activo     
+            input#pausaValNuevo(type='checkbox', name='pausaValNuevo')
+            span   Pausa
+        div#dialogValidador(title="Editar validador")            
+            p.numVal 
+            hr
+            input(type="hidden" name="idBaseVal")#idBaseVal
+            span Nombre 
+            br
+            input(type="text" name="nombreVal" placeholder="Ingresa el nombre")#nombreVal
+            br
+            span Hora Entrada 
+            br
+            select(id="horaEntradaVal", name="horaEntradaVal" class="selectHora")                
+            span :
+            select(id="minEntradaVal", name="minEntradaVal" class="selectHora")   
+            br
+            span Hora Salida 
+            br                           
+            select(id="horaSalidaVal", name="horaSalidaVal" class="selectHora")                
+            span :
+            select(id="minSalidaVal", name="minSalidaVal" class="selectHora")   
+            br
+            span Hora Comida 
+            br
+            select(id="horaComidaVal", name="horaComidaVal" class="selectHora")                
+            span :
+            select(id="minComidaVal", name="minComidaVal" class="selectHora")  
+            br
+            span Día de descanso 
+            br
+            select(id="descansoVal", name="descansoVal")                            
+            br
+            span Cuota 
+            br
+            input(type="text" name="cuotaVal" placeholder="Ingresa la cuota")#cuotaVal
+            br 
+            span Skill 
+            br
+            input(type="text" name="skillVal" placeholder="Ingresa el skill")#skillVal
+            br
+            span Tipo Orden 
+            br
+            select(id="tipoOrdenVal", name="tipoOrdenVal")
+                option(value='0') Todas las cuentas
+                option(value='1') SipreID exacto
+                option(value='2') SipreID cercano
+                option(value='3') SipreID no encontrado
+            br
+            input#activoVal(type='checkbox', name='activoVal')
+            span   Activo     
+            input#pausaVal(type='checkbox', name='pausaVal')
+            span   Pausa
+        
+        div#dialogAlertVal
+            p.texto
+        div#dialogEliminaValidador(title="Eliminar Validador")
+            | ¿Deseas eliminar al validador?
+            | <br/>
+            p.idValElimina
+            input(type="hidden" name="idBaseValElimina")#idBaseValElimina
+        div#dialogPausaMasiva(title="Pausa Masiva")
+            | ¿Deseas cambiar la pausa a TODOS los validadores?
+            | <br/>
+        div#dialogEditaValidador(title="Editar Validador")
+            | ¿Deseas editar al validador?
+            | <br/>
+            p.idValEdita
+            input(type="hidden" name="idBaseValEdita")#idBaseValEdita
+        div#dialogCargaArchivo(title="Carga archivo")
+            form(method="post", enctype="multipart/form-data" id="formCargaArchivo" action="/cargaArchivo")
+                label.control-label(for="archivoValidadores") Archivo de validadores
+                div.controls
+                    input(type="file", name="archivoValidadores", id="archivoValidadores").span4.archivoValidadores
+                hr
+                .controls
+                    input(type="submit" id="cargaArchivoBtn" value="Cargar").btn.btn-large.btn-primary
+                    input(type="button" id="cancelaCarga" value="Cancelar").btn.btn-large.btn-alert
+    script.
+        $(".se-pre-con").fadeOut("slow");
+        console.log("aqui")
+        var validadores = JSON.parse('!{validadores}');        
+
+        for(var min = 0; min < 60; min ++)
+        {
+            var minuto = ""
+            if (min >= 0 && min < 10)
+                minuto = "0" + min
+            else
+                minuto = min
+            $('#minEntradaVal').append('<option value="'+minuto+'">'+minuto+'</option>');
+            $('#minSalidaVal').append('<option value="'+minuto+'">'+minuto+'</option>');
+            $('#minComidaVal').append('<option value="'+minuto+'">'+minuto+'</option>');
+
+            $('#minEntradaValNuevo').append('<option value="'+minuto+'">'+minuto+'</option>');
+            $('#minSalidaValNuevo').append('<option value="'+minuto+'">'+minuto+'</option>');
+            $('#minComidaValNuevo').append('<option value="'+minuto+'">'+minuto+'</option>');
+        }
+
+        for(var hor = 0; hor < 24; hor ++)
+        {
+            var hora = ""
+            if (hor >= 0 && hor < 10)
+                hora = "0" + hor
+            else
+                hora = hor
+            $('#horaEntradaVal').append('<option value="'+hora+'">'+hora+'</option>');
+            $('#horaSalidaVal').append('<option value="'+hora+'">'+hora+'</option>');
+            $('#horaComidaVal').append('<option value="'+hora+'">'+hora+'</option>');
+
+            $('#horaEntradaValNuevo').append('<option value="'+hora+'">'+hora+'</option>');
+            $('#horaSalidaValNuevo').append('<option value="'+hora+'">'+hora+'</option>');
+            $('#horaComidaValNuevo').append('<option value="'+hora+'">'+hora+'</option>');
+        }
+
+        for(var dia = 0; dia < 7; dia++)
+        {
+            $('#descansoVal').append('<option value="'+dia+'">'+diaSemana(dia)+'</option>');
+            $('#descansoValNuevo').append('<option value="'+dia+'">'+diaSemana(dia)+'</option>');
+        }
+
+        for(var i = 0; i < validadores.length; i++)
+        {            
+            var activo = ""
+            var pausa = ""
+
+            var id = ""
+            var idVal = ""
+            var nombre = ""
+            var horaEntrada = ""
+            var minEntrada = ""
+            var horaSalida = ""
+            var minSalida = ""
+            var horaComida = ""
+            var minComida = ""
+            var cuota = ""
+            var skill = ""
+            var descanso = ""
+            var tipoOrden = ""
+            var activoBit = 0 
+            var pausaBit = 0            
+
+            var horaEntradaSplit = validadores[i].HoraEntrada.split(':')
+            var horaSalidaSplit = validadores[i].HoraSalida.split(':')
+            var horaComidaSplit = validadores[i].HoraComida.split(':')
+
+            id = validadores[i].Id
+            idVal = validadores[i].IdVal
+            nombre = validadores[i].Nombre
+            horaEntrada = horaEntradaSplit[0]
+            minEntrada = horaEntradaSplit[1]
+            horaSalida = horaSalidaSplit[0]
+            minSalida = horaSalidaSplit[1]
+            horaComida = horaComidaSplit[0]
+            minComida = horaComidaSplit[1]
+            cuota = validadores[i].Cuota
+            skill = validadores[i].Skill            
+            descanso = validadores[i].DiaDescanso
+            ordAsignadas = validadores[i].ordenesAsignadas
+            ordPorTrabajar = validadores[i].ordenesPorTrabajar
+
+        
+            if(validadores[i].Activo)
+            {
+                activo = "<img src='/iconos/ok.png'>"
+                activoBit = 1
+            }                
+            else
+            {
+                activo = "<img src='/iconos/nok.png'>"
+                activoBit = 0
+            }
+
+            if(validadores[i].Pausa)
+            {
+                pausa = "<img src='/iconos/pause.png'>"
+                pausaBit = 1
+            }                
+            else
+            {
+                pausa = "<img src='/iconos/play.png'>"
+                pausaBit = 0
+            }
+
+            switch(validadores[i].TipoOrden)
+            {
+                case 0:
+                    tipoOrden = "Todas las cuentas"
+                    break;
+
+                case 1:
+                    tipoOrden = "SipreID exacto"
+                    break;
+
+                case 2:
+                    tipoOrden = "SipreID cercano"
+                    break;
+
+                case 3:
+                    tipoOrden = "SipreID no encontrado"
+                    break;
+
+            }
+                
+
+            var fila = '<tr><td>'+idVal+'</td>'
+            fila += '<td style="text-align:center">'+nombre+'</td>'
+            fila += '<td style="text-align:center">'+validadores[i].HoraEntrada+'</td>'
+            fila += '<td style="text-align:center">'+validadores[i].HoraSalida+'</td>'
+            fila += '<td style="text-align:center">'+validadores[i].HoraComida+'</td>'
+            fila += '<td style="text-align:center">'+cuota+'</td>'
+            fila += '<td style="text-align:center">'+diaSemana(descanso)+'</td>'
+            fila += '<td style="text-align:center" style="text-align:center">'+ordAsignadas+'</td>'
+            fila += '<td style="text-align:center">'+ordPorTrabajar+'</td>'
+            fila += '<td style="text-align:center">'+skill+'</td>'
+            fila += '<td style="text-align:center">'+tipoOrden+'</td>'
+            fila += '<td style="text-align:center">'+activo+'</td>'
+            fila += '<td style="text-align:center">'+pausa+'</td>'
+            fila += '<td style="text-align:center"><button id="editar-'+id+'" class="btn btn-primary editarValidador" data-id='+id+' data-val='+idVal+' data-nom="'+nombre+'" data-hent="'+horaEntrada+'" data-ment="'+minEntrada+'" data-hsal="'+horaSalida+'" data-msal="'+minSalida+'" data-hcom="'+horaComida+'" data-mcom="'+minComida+'" data-desc='+descanso+' data-cuota='+cuota+' data-tipoOrden='+validadores[i].TipoOrden+' data-skill="'+skill+'" data-act='+activoBit+' data-pausa='+pausaBit+'><i class="icon-pencil icon-white"></i></button>'            
+            fila += '<td style="text-align:center"><a id="elimina-"'+id+'" class="eliminaValidador" data-id='+id+' data-val='+idVal+'>Eliminar</a>'
+
+            $("#tablaValidadores").append($(fila))
+        }
+    

@@ -1,0 +1,24 @@
+extends layout
+
+block content  
+  #login-form.well.span7.offset4                          
+    form.form-horizontal()#loginSubmit.well.span6   
+      img.center#logo(src="/logo_2.png" alt="Izzi")
+      //- h2 Plataforma izzi
+      h6.subheading(align="center") Inicia sesión con tu cuenta
+      hr
+      div.control-group
+        label.control-label(for='username') Nombre de usuario
+        div.controls
+          input(name="username",type="text",placeholder="Escribe un nombre de usuario",required).span4.username
+      div.control-group
+        label.control-label(for="password") Escribe un Password
+        div.controls
+          input(name="password",type="password",placeholder="Escribe un password",required).span4.password
+      div.control-group
+        hr
+        label.control-label(for="singlebutton")
+        div.controls
+          button.btn.btn-large.btn-primary()
+            i.icon-lock.icon-white
+            |  Iniciar sesión

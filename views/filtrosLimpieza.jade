@@ -1,0 +1,204 @@
+extends layout_reporte
+block content  
+    div.se-pre-con
+    .well.well-lg.span11.offset0 
+        | <br/>    
+        h3 #{title}
+        hr
+        input(type="hidden" name="idAnterior")#idAnterior 
+        button.btn.btn-success#agregaFiltroLimpieza
+            i.icon-plus.icon-white
+            |  Agregar
+        button.btn.btn-success#agregaFiltro
+            i.icon-plus.icon-white
+            |  Agregar filtro
+        button.btn.btn-success#agregaCondicion
+            i.icon-plus.icon-white
+            |  Agregar condicion
+        button.btn.btn-warning#atrasFiltro
+            //- i.icon-plus.icon-arrow-left
+            |  Atrás
+        button.btn.btn-warning#atrasCondiciones
+            //- i.icon-plus.icon-arrow-left
+            |  Atrás
+        | <br/>   
+        | <br/>
+        //- h4 #{subtitle}        
+        div#table_div(style="margin-top:50px;")            
+            table#tablaFiltrosLimpieza.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr                        
+                        th Id 
+                        th Nombre 
+                        th Numero
+                        th Activo
+                        th Más
+                        th Editar
+                        th Eliminar                                                                    
+                tbody                   
+            table#tablaFiltros.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr                        
+                        th Id 
+                        th Descripcion 
+                        th Número
+                        th Más
+                        th Editar
+                        th Eliminar                                                                    
+                tbody
+            table#tablaCondiciones.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr                        
+                        th Id 
+                        th Columna 
+                        th Condicion
+                        th Valor
+                        th Editar
+                        th Eliminar                                                                    
+                tbody
+        div#dialogFiltroLimpiezaNuevo(title="Nuevo filtro de limpieza")                        
+            span Nombre 
+            br
+            input(type="text" name="nombreFiltroLimpiezaNuevo" placeholder="Ingresa el nombre del filtro")#nombreFiltroLimpiezaNuevo
+            br  
+            span Número 
+            br
+            input(type="text" name="numeroFiltroLimpiezaNuevo" placeholder="Ingresa el número del filtro")#numeroFiltroLimpiezaNuevo
+            br
+            span Activo     
+            input#activoFilLimpiNuevo(type='checkbox', name='activoFilLimpiNuevo')             
+        div#dialogFiltroNuevo(title="Nuevo filtro ")                        
+            span Descripcion 
+            br
+            input(type="text" name="descFiltroNuevo" placeholder="Ingresa al descripción del filtro")#descFiltroNuevo
+            br  
+            span Número 
+            br
+            input(type="text" name="numeroFiltroNuevo" placeholder="Ingresa el número del filtro")#numeroFiltroNuevo
+            br 
+            input(type="hidden" name="idActividadFiltro")#idActividadFiltro 
+        div#dialogCondicionNuevo(title="Nueva condicion ")                        
+            span Columna 
+            br
+            select(name="columnaCondicion")#columnaCondicion
+              option(selected value=null) 
+                - var colVal = JSON.parse(columnas);
+                each columna in colVal
+                  option(value=columna.Columna) #{columna.Columna}
+            br  
+            span Condición 
+            br
+            input(type="text" name="condCondicion" placeholder="Ingresa la condicion")#condCondicion
+            br 
+            span Valor 
+            br
+            input(type="text" name="valorCondicion" placeholder="Ingresa el valor a comparar")#valorCondicion
+            br 
+            input(type="hidden" name="idFiltroCondicion")#idFiltroCondicion    
+        div#dialogFiltroLimpieza(title="Editar filtro de limpieza")   
+            input(type="hidden" name="idBaseFiltroLimpieza")#idBaseFiltroLimpieza         
+            span Nombre 
+            br
+            input(type="text" name="nombreFiltroLimpieza" placeholder="Ingresa el nombre del filtro")#nombreFiltroLimpieza
+            br 
+            span   Activo     
+            input#activoFilLimpi(type='checkbox', name='activoFilLimpi')  
+        div#dialogFiltro(title="Editar filtro")
+            input(type="hidden" name="idBaseFiltro")#idBaseFiltro
+            span Descripción
+            br
+            input(type="text" name="descripcion" placeholder="Ingresa la descripción del filtro")#descripcionFiltro
+            span Número
+            br
+            input(type="numer" name="number" placeholder="Ingresa el número")#numFiltro
+        div#dialogCondicion(title="Editar condición")
+            input(type="hidden" name="idBaseCondicion")#idBaseCondicion 
+            span Columna 
+            select(name="columnaCondicion")#columnaCondicion
+              option(selected value=null) 
+                - var colVal = JSON.parse(columnas);
+                each columna in colVal
+                  option(value=columna.Columna) #{columna.Columna}
+            br
+            //- input(type="text" name="columna" placeholder="Ingresa la columna")#columnaCondicion 
+            span Condición	
+            br
+            input(type="text" name="condicion" placeholder="Ingresa la condición")#condicionCondicion   
+            br            
+            span Valor	
+            br
+            input(type="text" name="valor" placeholder="Ingresa el valor")#valorCondicion
+        div#dialogAlertFiltroLimpieza
+            p.texto
+        div#dialogEliminaFiltro(title="Eliminar filtro")
+            | ¿Deseas eliminar el filtro?
+            | <br/>
+            p.idFiltroElimina
+            input(type="hidden" name="idBaseFiltroElimina")#idBaseFiltroElimina
+        div#dialogEliminaFiltroLimpieza(title="Eliminar filtro de limpieza")
+            | ¿Deseas eliminar el filtro de limpieza?
+            | <br/>
+            p.idFiltroLimpiezaElimina
+            input(type="hidden" name="idBaseFiltroLimpiezaElimina")#idBaseFiltroLimpiezaElimina
+        div#dialogEliminaCondicion(title="Eliminar condicion")
+            | ¿Deseas eliminar la condición?
+            | <br/>
+            p.idCondicionElimina
+            input(type="hidden" name="idBaseCondicionElimina")#idBaseCondicionElimina
+        div#dialogEditaFiltroLimpieza(title="Editar filtro de limpieza")
+            | ¿Deseas editar el filtro de limpieza?
+            | <br/>
+            p.idFiltroLimpiezaEdita
+            input(type="hidden" name="idBaseFiltroLimpiezaEdita")#idBaseFiltroLimpiezaEdita
+        div#dialogEditaFiltro(title="Editar filtro")
+            | ¿Deseas editar el filtro?
+            | <br/>
+            p.idFiltroEdita
+            input(type="hidden" name="idBaseFiltroEdita")#idBaseFiltroEdita
+        div#dialogEditaCondicion(title="Editar condición")
+            | ¿Deseas editar la condición?
+            | <br/>
+            p.idCondicionEdita
+            input(type="hidden" name="idBaseCondicionEdita")#idBaseCondicionEdita
+
+
+    script.
+        $(".se-pre-con").fadeOut("slow");
+
+        $("#atrasCondiciones").hide()
+        $("#atrasFiltro").hide()        
+
+        var filtrosLimpieza = JSON.parse('!{filtrosLimpieza}');  
+
+        for(var i = 0; i < filtrosLimpieza.length; i++)
+        {            
+            var id = ""            
+            var nombre = ""
+            var numero = ""
+                               
+            id = filtrosLimpieza[i].Id
+            nombre = filtrosLimpieza[i].Nombre
+            numero = filtrosLimpieza[i].Numero 
+
+            if(filtrosLimpieza[i].Activo)
+            {
+                activo = "<img src='/iconos/ok.png'>"
+                activoBit = 1
+            }                
+            else
+            {
+                activo = "<img src='/iconos/pause.png'>"
+                activoBit = 0
+            }
+
+            var fila = '<tr><td style="text-align:center" class="id-'+id+'">'+id+'</td>'
+            fila += '<td style="text-align:center" class="nombre-'+id+'">'+nombre+'</td>' 
+            fila += '<td style="text-align:center" class="numero-'+id+'">'+numero+'</td>' 
+            fila += '<td style="text-align:center">'+activo+'</td>'
+            fila += "<td style='text-align:center'><button id='drillDown-"+id+"' class=\"btn btn-warning drillDownFiltroLimpieza\" data-id="+id+" ><i class='icon-plus icon-white'></i></button>"
+            fila += "<td style='text-align:center'><button id='editar-"+id+"' class=\"btn btn-primary editarFiltroLimpieza\" data-id=" + id + " data-nom='" + nombre + "' data-num=" + numero + " data-activo=" + activoBit +" ><i class='icon-pencil icon-white'></i></button>"
+            fila += "<td style='text-align:center'><a id='elimina-"+id+"' class='eliminaFiltroLimpieza' data-id="+id+">Eliminar</a>"
+
+            $("#tablaFiltrosLimpieza").append($(fila))
+        }
+        

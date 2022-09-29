@@ -1,0 +1,64 @@
+extends layout_reporte
+block content  
+    div.se-pre-con
+    .well.well-lg.span11.offset0 
+        | <br/>    
+        h3 #{title}
+        form.form-inline#reporteValSubmit
+            input(type="text" name="fechaIni" placeholder="Fecha Inicio")#fechaIni
+            input(type="text" name="fechaFin" placeholder="Fecha Fin")#fechaFin
+            select(name="validadorPicker")#validadorPicker
+              option(selected value=null) 
+                - var nomVal = JSON.parse(nombresValidadores);
+                each nombre in nomVal
+                  option(value=nombre.validador) #{nombre.validador}
+
+            button.btn.btn-success() 
+                i.icon-signal.icon-white
+                |  Enviar        
+        div.btn-toolbar
+            button.btn.btn-success#reporteValMes
+                i.icon-calendar.icon-white
+                |  Mensual
+            button.btn.btn-success#reporteValExcel
+                i.icon-file.icon-white
+                |  Descargar en Excel  
+        hr
+        div#chart_div_val(style="width: 800px; height: 600px")
+        div#dialogReporteValExcel(title="Exporta info a Excel")
+            | Selecciona una fecha de inicio y de fin para exportar la información a Excel.
+            hr
+            input(type="text" name="fechaIniExcel" placeholder="Fecha Inicio")#fechaIniExcel
+            input(type="text" name="fechaFinExcel" placeholder="Fecha Fin")#fechaFinExcel
+            select(name="validadorPickerExcel")#validadorPickerExcel
+              option(selected value=null) 
+                - var nomVal = JSON.parse(nombresValidadores);
+                each nombre in nomVal
+                  option(value=nombre.validador) #{nombre.validador}   
+    script.
+        $(".se-pre-con").fadeOut("slow");
+        var chartArray = JSON.parse('!{chartArray}');           
+
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawChart); 
+
+        function drawChart() 
+        {
+          var data = new google.visualization.arrayToDataTable(chartArray);
+
+          var options = {
+            chart: {
+              title: 'Ordenes validador',              
+            },
+            vAxis: {
+              format: 'decimal'
+            },
+            legend: {
+              position: 'bottom'
+            }
+          };
+
+          // Instantiate and draw our chart, passing in some options.
+          var chart = new google.charts.Bar(document.getElementById('chart_div_val'));
+          chart.draw(data, google.charts.Bar.convertOptions(options));
+        }

@@ -1,0 +1,33 @@
+doctype html
+html
+    head
+        title= title 
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')    
+        link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel="stylesheet", href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css") 
+        link(rel='stylesheet', href='/stylesheets/datatables.css')
+        link(rel='stylesheet', href='/stylesheets/datatables.min.css')      
+        link(rel='stylesheet', href='/stylesheets/viewer.css')
+        script(type='text/javascript' src='/javascripts/jquery.min.js')
+        script(type='text/javascript' src='/javascripts/bootstrap.js')    
+        script(type='text/javascript' src='/javascripts/functions.js')
+        script(type='text/javascript' src='/javascripts/loader.js')
+        script(type='text/javascript' src='/javascripts/jquery.js')        
+        script(src="https://code.jquery.com/jquery-1.12.4.js")
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
+        script(type='text/javascript' src='/javascripts/jqueryUI.js')
+        script(type='text/javascript' src='/javascripts/datatables.js')            
+        script(type='text/javascript' src='/javascripts/datatables.min.js')   
+        //- script(type='text/javascript' src='/javascripts/jquery2.js')
+        script(type='text/javascript' src="/javascripts/viewer.js")      
+        script(type='text/javascript' src="/javascripts/jquery-viewer.js")                          
+
+    body    
+        .navbar-inner                 
+            img#logo.navbar-brand(src="/logo_2.png" alt="Izzi")
+            a.btn.btn-info#cuentasBtn Cuentas
+            a.btn.btn-info#cuentasPorLiberarBtn Cuentas por verificar            
+            a.btn.btn-danger(href="logout") Cerrar Sesión               
+    block content
+    .container

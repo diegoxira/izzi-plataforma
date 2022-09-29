@@ -1,0 +1,32 @@
+extends layout_reporte
+block content  
+    div.se-pre-con
+    .well.well-lg.span11.offset0 
+        | <br/>    
+        h3 #{title}
+        hr
+        div#table_div(style="margin-top:50px;")            
+            table#tablaPromedios.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr
+                        th Id validador
+                        th Tiempo promedio de liberación                    
+                tbody
+    script.
+        $(".se-pre-con").fadeOut("slow");
+
+        var promedios = JSON.parse('!{promedios}');
+        console.log(promedios)
+
+        for(let i = 0; i < promedios.length; i++)
+        {
+            var idVal = promedios[i].validador
+            var promedio = promedios[i].promedio
+            
+            var fila = '<tr><td style="text-align:center">' + idVal + '</td>'
+            fila += '<td style="text-align:center">' + promedio + ' hrs </td>'
+
+            $("#tablaPromedios").append($(fila))
+        }
+        
+

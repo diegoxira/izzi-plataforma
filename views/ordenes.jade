@@ -1,0 +1,54 @@
+extends layout_reporte
+block content  
+    div.se-pre-con
+    .well.well-lg.span11.offset0 
+        | <br/>
+        | <br/>
+        | <br/>    
+        h3 #{title}
+        hr
+        div#table_div(style="margin-top:50px;")            
+            table#tablaOrdenes.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr
+                        th Número de órden
+                        th Correo
+                        th Teléfono
+                        th Cobertura  
+                        th Liberación                      
+                tbody  
+        div#dialogConfirma(title="Liberar órden")
+            | ¿Deseas liberar la órden?
+            | <br/>
+            p.numOrden  
+            input(type="hidden" name="idBase")#idBase
+        div#dialogAlert
+            p.texto        
+    script.
+        $(".se-pre-con").fadeOut("slow");
+        var ordenes = JSON.parse('!{ordenes}');
+
+        for(var i = 0; i < ordenes.length; i++)
+        {
+            var correo = ""
+            var telefono = ""
+            var cobertura = ""
+            
+            if(ordenes[i].Correo.data == 1)
+                correo = "<img src='/iconos/ok.png'>"
+            else
+                correo = "<img src='/iconos/nok.png'>"
+
+            if(ordenes[i].Telefono.data == 1)
+                telefono = "<img src='/iconos/ok.png'>"
+            else
+                telefono = "<img src='/iconos/nok.png'>"
+
+            if(ordenes[i].Cobertura == "SI")
+                cobertura = "<img src='/iconos/ok.png'>"
+            else
+                cobertura = "<img src='/iconos/nok.png'>"
+
+            $("#tablaOrdenes").append($('<tr><td>'+ordenes[i].Orden+'</td><td>'+correo+'</td><td>'+telefono+'</td><td>'+cobertura+'</td><td><button id="editar-'+ordenes[i].Id+'" class="btn btn-primary editar" data-id='+ordenes[i].Id+' data-numord='+ordenes[i].Orden+'><i class="icon-ok icon-white"></i> Liberar</button>'))
+        }
+        

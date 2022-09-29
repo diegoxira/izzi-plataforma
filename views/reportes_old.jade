@@ -1,0 +1,47 @@
+extends layout_reporte
+block content  
+    div.se-pre-con
+    .well.well-lg.span11.offset0 
+        | <br/>    
+        h3 #{title}
+        form.form-inline#reporteSubmit
+          input(type="text" name="fechaIni" placeholder="Fecha Inicio")#fechaIni
+          input(type="text" name="fechaFin" placeholder="Fecha Fin")#fechaFin
+          button.btn.btn-success() 
+            i.icon-signal.icon-white
+            |  Enviar
+        div.btn-toolbar
+          button.btn.btn-success#temasMes
+            i.icon-calendar.icon-white
+            |  Temas mensuales        
+        hr
+        div#chart_div(style="width: 800px; height: 600px")   
+    script.
+        $(".se-pre-con").fadeOut("slow");
+        var chartArray = JSON.parse('!{chartArray}'); 
+        var validadoresArray = JSON.parse('!{validadoresArray}');      
+
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawChart); 
+
+        function drawChart() 
+        {
+          var data = new google.visualization.arrayToDataTable(chartArray);
+
+          var options = {
+            chart: {
+              title: 'Validadores',
+              subtitle: 'Ordenes por validador',
+            },
+            vAxis: {
+              format: 'decimal'
+            },
+            legend: {
+              position: 'bottom'
+            }
+          };
+
+          // Instantiate and draw our chart, passing in some options.
+          var chart = new google.charts.Bar(document.getElementById('chart_div'));
+          chart.draw(data, google.charts.Bar.convertOptions(options));
+        }

@@ -1,0 +1,120 @@
+extends layout_reporte
+block content  
+    div.se-pre-con
+    .well.well-lg.span11.offset0 
+        | <br/>    
+        h3 #{title}
+        hr
+        button.btn.btn-success#agregaFiltroDescarga
+            i.icon-plus.icon-white
+            |  Agregar                
+        div#table_div(style="margin-top:50px;")            
+            table#tablaFiltrosDes.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr                        
+                        th Nombre 
+                        th Tipo 
+                        th Estado
+                        th Fecha
+                        th Activo
+                        th Editar
+                        th Eliminar                                              
+                tbody
+        div#dialogFiltroDescargaNuevo(title="Nuevo filtro de descarga")                        
+            span Nombre 
+            br
+            input(type="text" name="nombreFiltroDescargaNuevo" placeholder="Ingresa el nombre del filtro")#nombreFiltroDescargaNuevo
+            br
+            span Tipo 
+            br
+            input(type="text" name="tipoFiltroDescargaNuevo" placeholder="Ingresa el tipo de cuentas")#tipoFiltroDescargaNuevo
+            br
+            span Estado 
+            br
+            input(type="text" name="estadoFiltroDescargaNuevo" placeholder="Ingresa el estado de las cuentas")#estadoFiltroDescargaNuevo
+            br
+            span Fecha 
+            br
+            input(type="text" name="fechaFiltroDescargaNuevo" placeholder="Ingresa la fecha desde cuando se desean descargar las cuentas")#fechaFiltroDescargaNuevo
+            br            
+            input#activoFiltroDescargaNuevo(type='checkbox', name='activoFiltroDescargaNuevo')
+            span   Activo
+        div#dialogFiltroDescarga(title="Editar filtro de descarga")   
+            input(type="hidden" name="idBaseFiltroDescarga")#idBaseFiltroDescarga         
+            span Nombre 
+            br
+            input(type="text" name="nombreFiltroDescarga" placeholder="Ingresa el nombre del filtro")#nombreFiltroDescarga
+            br
+            span Tipo 
+            br
+            input(type="text" name="tipoFiltroDescarga" placeholder="Ingresa el tipo de cuentas")#tipoFiltroDescarga
+            br
+            span Estado 
+            br
+            input(type="text" name="estadoFiltroDescarga" placeholder="Ingresa el estado de las cuentas")#estadoFiltroDescarga
+            br
+            span Fecha  
+            br
+            input(type="text" name="fechaFiltroDescarga" placeholder="Ingresa la fecha desde cuando se desean descargar las cuentas")#fechaFiltroDescarga
+            br            
+            input#activoFiltroDescarga(type='checkbox', name='activoFiltroDescarga')
+            span   Activo
+        div#dialogAlertFiltroDescarga
+            p.texto
+        div#dialogEliminaFiltroDescarga(title="Eliminar filtro de descarga")
+            | ¿Deseas eliminar el filtro de descarga?
+            | <br/>
+            p.idFiltroElimina
+            input(type="hidden" name="idBaseFiltroElimina")#idBaseFiltroElimina
+        div#dialogEditaFiltroDescarga(title="Editar filtro de descarga")
+            | ¿Deseas editar el filtro de descarga?
+            | <br/>
+            p.idFiltroDescargaEdita
+            input(type="hidden" name="idBaseFiltroDescargaEdita")#idBaseFiltroDescargaEdita
+    script.
+        $(".se-pre-con").fadeOut("slow");        
+        var filtrosDescarga = JSON.parse('!{filtrosDescarga}');                              
+
+        for(var i = 0; i < filtrosDescarga.length; i++)
+        {            
+            var id = ""            
+            var nombre = ""
+            var tipo = ""
+            var estado = ""
+            var fecha = ""
+            var activoBit = false
+                   
+            id = filtrosDescarga[i].Id
+            nombre = filtrosDescarga[i].Nombre
+            tipo = filtrosDescarga[i].Tipo
+            estado = filtrosDescarga[i].Estado
+            fecha = filtrosDescarga[i].Fecha              
+
+            tipoBoton = tipo.replace(/\"/g, "\\\"")
+            estadoBoton = estado.replace(/\"/g, "'")
+
+            console.log(filtrosDescarga[i])
+
+            if(filtrosDescarga[i].Activo)
+            {
+                activo = "<img src='/iconos/ok.png'>"
+                activoBit = true
+            }                
+            else
+            {
+                activo = "<img src='/iconos/pause.png'>"
+                activoBit = false
+            }          
+                
+
+            var fila = '<tr><td class="nombre-'+id+'">'+nombre+'</td>'
+            fila += '<td class="tipo-'+id+'">'+tipo+'</td>'
+            fila += '<td class="estado-'+id+'">'+estado+'</td>'
+            fila += '<td class="fecha-'+id+'">'+fecha+'</td>'  
+            fila += '<td class="activo-'+id+'">'+activo+'</td>'  
+            fila += "<td><button id='editar-"+id+"' class=\"btn btn-primary editarFiltroDescarga\" data-id="+id+" data-act="+activoBit+"><i class='icon-pencil icon-white'></i></button>"
+            fila += '<td><a id="elimina-"'+id+'" class="eliminaFiltroDescarga" data-id='+id+'>Eliminar</a>'
+
+            $("#tablaFiltrosDes").append($(fila))
+        }
+        

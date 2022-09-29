@@ -1,0 +1,133 @@
+doctype html
+html
+  head
+    title= title 
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    //- link(rel='stylesheet', href='/stylesheets/bootstrap/css/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='/stylesheets/jquery.datetimepicker.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
+    link(rel='stylesheet', href='/stylesheets/datatables.css')
+    link(rel='stylesheet', href='/stylesheets/datatables.min.css')
+    //- link(rel="stylesheet", href="/stylesheets/font-awesome.min.css")  
+    //- link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")    
+    script(type='text/javascript' src='/javascripts/jquery.min.js')
+    script(type='text/javascript' src='/javascripts/bootstrap.js')
+    //- script(type='text/javascript' src='/stylesheets/bootstrap/js/bootstrap.js')
+    script(type='text/javascript' src='/javascripts/functions.js')
+    script(type='text/javascript' src='/javascripts/loader.js')
+    script(type='text/javascript' src='https://www.gstatic.com/charts/loader.js')
+    script(src="https://code.jquery.com/jquery-1.12.4.js")
+    script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
+    script(type='text/javascript' src='/javascripts/jqueryUI.js')    
+    script(type='text/javascript' src='/javascripts/jquery.datetimepicker.full.min.js')    
+    script(type='text/javascript' src='/javascripts/datatables.js')            
+    script(type='text/javascript' src='/javascripts/datatables.min.js')                     
+
+  body    
+    //- nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    //-   a.navbar-brand(href="#")
+    //-     img#logo(src="/logo_2.png" alt="Izzi")
+    //-   .collapse.navbar-collapse
+    //-     ul.navbar-nav.mr-auto
+    //-       li.nav-item.dropdown
+    //-         a.btn.btn-info.nav-link.dropdown-toggle(role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#fff") Demo
+    //-         .dropdown-menu(aria-labelledby="navbarDropdown")
+    //-           a.dropdown-item#cuentasBtn Cuentas
+    //-           a.dropdown-item#validadoresBtn Validadores                     
+    //-     form.form-inline.my-2.my-lg-0
+    //-       a.mr-sm-2 Bienvenido: #{nombre}
+    //-       a.btn.btn-danger.nav-link(href="logout") Cerrar Sesión
+    .navbar-inner                 
+      img#logo.navbar-brand(src="/logo_2.png" alt="Izzi")
+      .dropdown.div-inline
+        button.btn.btn-info.dropdown-toggle(type="button" data-toggle="dropdown")=botoncito  
+          span.caret
+        ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu')                 
+          li
+            a#validadoresBtn Validadores
+          li
+            a#supervisoresBtn Supervisores
+
+          li
+            a#filtrosDescargaBtn Filtros de descarga 
+          li
+            a#filtrosLimpiezaBtn Filtros de limpieza 
+          li
+            a#asignaErrorBtn Asignar ordenes con error
+          li.divider
+          li
+            a#reasignaOrdenBtn Reasignar orden
+          li
+            a#reasignaOrdenMasBtn Reasignar ordenes masivo
+          li.divider
+          li
+            a#porAsignarBtn Ordenes por asignar
+          li
+            a#asignadasBtn Ordenes asignadas
+          li
+            a#infoAsignadasBtn Ordenes asignadas con resultados
+          li
+            a#limpiarOrdenesBtn Limpiar ordenes
+      .dropdown.div-inline
+        button.btn.btn-info.dropdown-toggle(type="button" data-toggle="dropdown") Reportes  
+          span.caret
+        ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu')                 
+          li
+            a#reporteVal Reporte Validador
+          li
+            a#reporteBot Reporte Robot
+          li.divider
+          li
+            a#reporteLiberadasPendiente Reporte órdenes liberadas por validar
+          li
+            a#sinTrabajarBtn Reporte órdenes asignadas sin trabajar
+      button.btn.btn-info#promedioVal
+        |  Promedio validadores
+      button.btn.btn-info#asignacionManual
+        |  Asignación manual
+      a.btn.btn-danger(href="logout") Cerrar Sesión
+    block content
+    .container
+    div#dialogReasignaOrden(title="Reasignar orden")
+      br
+      input(type="text" name="ordenReasigna" placeholder="Ingresa la orden a reasignar")#ordenReasigna
+    div#dialogReasignaOrdenMas(title="Reasignar ordenes masivo")
+      form(method="post", enctype="multipart/form-data" id="formReasignaOrdenesMas" action="/reasignaOrdenesMas")
+        label.control-label(for="archivoReasignaOrdenesMas") Archivo de órdenes
+        div.controls
+            input(type="file", name="reasignarOrdenes", id="archivoReasignaOrdenesMas").span4.archivoReasignaOrdenesMas
+        hr
+        .controls
+            input(type="submit" id="cargaArchivoMasivoBtn" value="Cargar").btn.btn-large.btn-primary
+            input(type="button" id="cancelaCargaMasivo" value="Cancelar").btn.btn-large.btn-alert
+    div#dialogOrdenesAsignadas(title="Ordenes asignadas")
+      | Selecciona las fechas de busqueda
+      hr
+      input(type="text" name="fechaIniAsignadas" placeholder="Fecha inicio")#fechaIniAsignadas
+      input(type="text" name="fechaFinAsignadas" placeholder="Fecha fin")#fechaFinAsignadas 
+    div#dialogInfoAsignadas(title="Info Ordenes asignadas")
+      | Selecciona las fechas de busqueda
+      hr
+      input(type="text" name="fechaIniInfoAsignadas" placeholder="Fecha inicio")#fechaIniInfoAsignadas
+      input(type="text" name="fechaFinInfoAsignadas" placeholder="Fecha fin")#fechaFinInfoAsignadas
+    div#dialogSinTrabajar(title="Info Ordenes asignadas sin trabajar")
+      | Selecciona las fechas de busqueda
+      hr
+      input(type="text" name="fechaIniSinTrabajar" placeholder="Fecha inicio")#fechaIniSinTrabajar
+      input(type="text" name="fechaFinSinTrabajar" placeholder="Fecha fin")#fechaFinSinTrabajar
+    div#dialogAsignaError(title="Asignar Ordenes Error")
+      | Ingresa el skill
+      hr
+      input(type="text" name="skillAsignaError" placeholder="Skill")#skillAsignaError
+    
+    div#dialogCargaArchivoLimpieza(title="Carga archivo de limpieza")
+      form(method="post", enctype="multipart/form-data" id="formCargaArchivoLimpieza" action="/limpiaOrdenes")
+          label.control-label(for="archivoValidadores") Archivo de órdenes a limpiar
+          div.controls
+              input(type="file", name="limpiaOrdenes", id="limpiaOrdenes").span4.limpiaOrdenes
+          hr
+          .controls
+              input(type="submit" id="cargaArchivoBtnLimpieza" value="Cargar").btn.btn-large.btn-primary
+              input(type="button" id="cancelaCargaLimpieza" value="Cancelar").btn.btn-large.btn-alert

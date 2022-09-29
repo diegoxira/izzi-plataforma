@@ -1,0 +1,68 @@
+extends layout_reporte
+block content  
+    div.se-pre-con
+    .well.well-lg.span11.offset0 
+        | <br/>    
+        h3 #{title}
+        hr
+        button.btn.btn-success#agregaSupervisor
+            i.icon-plus.icon-white
+            |  Agregar
+        div#table_div(style="margin-top:50px;")            
+            table#tablaSupervisores.table-striped.table-bordered(cellpadding="5")
+                thead
+                    tr
+                        th Id supervisor
+                        th Nombre
+                        th Editar                 
+                        th Eliminar               
+                tbody
+        div#dialogSupervisor(title="Editar supervisor")            
+            p.numSup 
+            hr
+            input(type="hidden" name="idBaseSup")#idBaseSup
+            span Nombre 
+            br
+            input(type="text" name="nombreSup" placeholder="Ingresa el nombre")#nombreSup
+            br
+        div#dialogAlertSup
+            p.texto
+        div#dialogSupervisorNuevo(title="Nuevo supervisor")            
+            span Id supervisor
+            input(type="text" name="idSupNuevo" placeholder="Ingresa el Id del supervisor")#idSupNuevo
+            span Nombre 
+            br
+            input(type="text" name="nombreSupNuevo" placeholder="Ingresa el nombre")#nombreSupNuevo
+        div#dialogEliminaSupervisor(title="Eliminar Supervisor")
+            | ¿Deseas eliminar al supervisor?
+            | <br/>
+            p.idSupElimina
+            input(type="hidden" name="idBaseSupElimina")#idBaseSupElimina
+        div#dialogEditaSupervisor(title="Editar Supervisor")
+            | ¿Deseas editar al supervisor?
+            | <br/>
+            p.idSupEdita
+            input(type="hidden" name="idBaseSupEdita")#idBaseSupEdita
+    script.
+        $(".se-pre-con").fadeOut("slow");
+
+        var supervisores = JSON.parse('!{supervisores}');
+
+
+        for(var i = 0; i < supervisores.length; i++)
+        {
+            var id = ""
+            var idVal = ""
+            var nombre = ""
+
+            id =     supervisores[i].Id
+            idSup =  supervisores[i].IdSup
+            nombre = supervisores[i].Nombre
+
+            var fila = '<tr><td>'+idSup+'</td>'
+            fila += '<td style="text-align:center">'+nombre+'</td>'
+            fila += '<td style="text-align:center"><button id="editar-' + id + '" class="btn btn-primary editarSupervisor" data-id=' + id + ' data-sup=' + idSup + ' data-nom="' + nombre + '"><i class="icon-pencil icon-white"></i></button>'            
+            fila += '<td style="text-align:center"><a id="elimina-"'+id+'" class="eliminaSupervisor" data-id='+id+' data-sup='+idSup+'>Eliminar</a>'
+
+                $("#tablaSupervisores").append($(fila))
+        }
